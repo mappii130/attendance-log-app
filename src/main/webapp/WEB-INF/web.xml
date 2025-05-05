@@ -17,9 +17,20 @@
         <servlet-class>servlet.LogoutServlet</servlet-class>
     </servlet>
 
+    <!-- AttendanceListServlet の設定 -->
     <servlet-mapping>
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/LogoutServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AttendanceListServlet</servlet-name>
+        <servlet-class>servlet.AttendanceListServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AttendanceListServlet</servlet-name>
+        <url-pattern>/AttendanceListServlet</url-pattern>
     </servlet-mapping>
 
     <!-- 他のサーブレットも同様にここに追加可能 -->	
