@@ -34,7 +34,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("employee", employee);
 
             // 勤怠一覧などへリダイレクト
-            response.sendRedirect("attendanceList.jsp");
+            response.sendRedirect("AttendanceListServlet");
         } else {
             // 認証失敗 → エラーメッセージをセットして戻す
             request.setAttribute("error", "メールアドレスまたはパスワードが違います。");

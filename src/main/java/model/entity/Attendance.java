@@ -1,6 +1,8 @@
 package model.entity;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Attendance {
     private int id;
@@ -48,4 +50,51 @@ public class Attendance {
 
     public int getOvertimeHours() { return overtimeHours; }
     public void setOvertimeHours(int overtimeHours) { this.overtimeHours = overtimeHours; }
+    
+    // 労働時間（休憩時間を差し引いた総時間）を分単位で返す
+    public long getTotalWorkMinutes() {
+        if (clockIn != null && clockOut != null) {
+            Duration workDuration = Duration.between(clockIn, clockOut);
+            Duration breakDuration = Duration.ZERO;
+
+            if (breakStart != null && breakEnd != null) {
+                breakDuration = Duration.between(breakStart, breakEnd);
+            }
+
+            return workDuration.minus(breakDuration).toMinutes();
+        }
+        return 0;
+    }
+
+    // 表示用フォーマット：日付
+    public String getDateString() {
+        if (clockIn != null) {
+            return clockIn.toLocalDate().toString(); // yyyy-MM-dd
+        }
+        return "";
+    }
+
+    // 表示用フォーマット：出勤時刻（HH:mm）
+    public String getClockInTimeString() {
+        if (clockIn != null) {
+            return clockIn.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+        }
+        return "";
+    }
+
+    // 表示用フォーマット：退勤時刻（HH:mm）
+    public String getClockOutTimeString() {
+        if (clockOut != null) {
+            return clockOut.toLocalTime().format(DateTimeFormatter.ofPattern("HH:mm"));
+        }
+        return "";
+    }
+
+    // 表示用フォーマット：労働時間（hh時間mm分）
+    public String getTotalWorkTimeString() {
+        long totalMinutes = getTotalWorkMinutes();
+        long hours = totalMinutes / 60;
+        long minutes = totalMinutes % 60;
+        return hours + "時間" + minutes + "分";
+    }
 }
