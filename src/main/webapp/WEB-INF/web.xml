@@ -33,6 +33,18 @@
         <url-pattern>/AttendanceListServlet</url-pattern>
     </servlet-mapping>
 
+    <!-- AttendanceListServlet の設定 -->
+    <servlet>
+        <servlet-name>AttendanceRegisterServlet</servlet-name>
+        <servlet-class>servlet.AttendanceRegisterServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AttendanceRegisterServlet</servlet-name>
+        <url-pattern>/AttendanceRegisterServlet</url-pattern>
+    </servlet-mapping>
+    
+
     <!-- 他のサーブレットも同様にここに追加可能 -->	
 
     <!-- 文字エンコーディング設定（必要なら） -->
