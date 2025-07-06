@@ -28,32 +28,56 @@ public class AttendanceRegisterServlet extends HttpServlet {
             return;
         }
 
-        // 勤怠登録情報を生成
+        String action = request.getParameter("action");  // ボタンのvalueを取得
+        LocalDateTime now = LocalDateTime.now();
+
+        AttendanceDAO dao = new AttendanceDAO();
         Attendance attendance = new Attendance();
         attendance.setEmployeeId(employee.getId());
+        boolean result = false;
 
-        // 今の時間を出勤時刻として登録（例：ボタンを押した時点）
-        LocalDateTime now = LocalDateTime.now();
-        attendance.setClockIn(now);
+        switch (action) {
+            case "出勤":
+                attendance.setClockIn(now);
+                result = dao.insert(attendance);
+                break;
+            case "退勤":
+                // 直近のレコード取得して退勤時間を更新（簡易版）
+                var list = dao.findByEmployeeId(employee.getId());
+                if (!list.isEmpty()) {
+                    Attendance latest = list.get(0);
+                    latest.setClockOut(now);
+                    result = dao.update(latest);
+                }
+                break;
+            case "休憩開始":
+                var list2 = dao.findByEmployeeId(employee.getId());
+                if (!list2.isEmpty()) {
+                    Attendance latest = list2.get(0);
+                    latest.setBreakStart(now);
+                    result = dao.update(latest);
+                }
+                break;
+            case "休憩終了":
+                var list3 = dao.findByEmployeeId(employee.getId());
+                if (!list3.isEmpty()) {
+                    Attendance latest = list3.get(0);
+                    latest.setBreakEnd(now);
+                    result = dao.update(latest);
+                }
+                break;
+            default:
+                result = false;
+        }
 
-        // 他の値は未設定（null）でOK。必要であれば追加可
-        attendance.setClockOut(null);
-        attendance.setBreakStart(null);
-        attendance.setBreakEnd(null);
-        attendance.setOvertimeHours(0); // 初期値
-
-        // DAOで登録処理
-        AttendanceDAO dao = new AttendanceDAO();
-        boolean success = dao.insert(attendance);
-
-        // 結果に応じて遷移
-        if (success) {
-            response.sendRedirect("AttendanceListServlet"); // web.xmlでマッピングしたURLへ
+        if (result) {
+            response.sendRedirect("AttendanceListServlet");
         } else {
             request.setAttribute("error", "勤怠登録に失敗しました。");
             request.getRequestDispatcher("/WEB-INF/jsp/error.jsp").forward(request, response);
         }
     }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

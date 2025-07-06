@@ -98,4 +98,20 @@ public class Attendance {
         long minutes = totalMinutes % 60;
         return hours + "時間" + minutes + "分";
     }
+
+    // 休憩時間（分単位）
+    public long getBreakMinutes() {
+        if (breakStart != null && breakEnd != null) {
+            return Duration.between(breakStart, breakEnd).toMinutes();
+        }
+        return 0;
+    }
+
+    // 表示用フォーマット：休憩時間（hh時間mm分）
+    public String getBreakTimeString() {
+        long minutes = getBreakMinutes();
+        long hours = minutes / 60;
+        long remainingMinutes = minutes % 60;
+        return hours + "時間" + remainingMinutes + "分";
+    }
 }

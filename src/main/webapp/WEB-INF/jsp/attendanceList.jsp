@@ -14,6 +14,7 @@
 	        <th>日付</th>
 	        <th>出勤時刻</th>
 	        <th>退勤時刻</th>
+	        <th>休憩時間</th>
 	        <th>労働時間</th>
 	    </tr>
 	    <c:forEach var="att" items="${attendanceList}">
@@ -21,6 +22,7 @@
 	            <td>${att.dateString}</td>
 	            <td>${att.clockInTimeString}</td>
 	            <td>${att.clockOutTimeString}</td>
+	            <td>${att.breakTimeString}</td>
 	            <td>${att.totalWorkTimeString}</td>
 	        </tr>
 	    </c:forEach>

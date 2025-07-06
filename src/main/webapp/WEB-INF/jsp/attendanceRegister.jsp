@@ -9,7 +9,10 @@
 </head>
 <body>
 	<form action="AttendanceRegisterServlet" method="post">
-	    <input type="submit" value="出勤を登録">
+	    <input type="submit" name="action" value="出勤">
+	    <input type="submit" name="action" value="退勤">
+        <input type="submit" name="action" value="休憩開始">
+        <input type="submit" name="action" value="休憩終了">
 	</form>
 </body>
 </html>
