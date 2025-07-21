@@ -108,5 +108,41 @@ public class AttendanceDAO {
 
         return list;
     }
+    
+ // 勤怠IDで1件の勤怠データを取得
+    public Attendance findById(int id) {
+        String sql = "SELECT * FROM attendance WHERE id = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Attendance att = new Attendance();
+                att.setId(rs.getInt("id"));
+                att.setEmployeeId(rs.getInt("employee_id"));
+                att.setClockIn(rs.getTimestamp("clock_in").toLocalDateTime());
+
+                Timestamp out = rs.getTimestamp("clock_out");
+                if (out != null) att.setClockOut(out.toLocalDateTime());
+
+                Timestamp brStart = rs.getTimestamp("break_start");
+                if (brStart != null) att.setBreakStart(brStart.toLocalDateTime());
+
+                Timestamp brEnd = rs.getTimestamp("break_end");
+                if (brEnd != null) att.setBreakEnd(brEnd.toLocalDateTime());
+
+                att.setOvertimeHours(rs.getInt("overtime_hours"));
+                return att;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }
 

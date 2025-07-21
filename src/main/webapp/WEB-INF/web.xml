@@ -44,7 +44,17 @@
         <url-pattern>/AttendanceRegisterServlet</url-pattern>
     </servlet-mapping>
     
+    <!-- AttendanceEditServlet の設定 -->
+    <servlet>
+        <servlet-name>AttendanceEditServlet</servlet-name>
+        <servlet-class>servlet.AttendanceEditServlet</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>AttendanceEditServlet</servlet-name>
+        <url-pattern>/AttendanceEditServlet</url-pattern>
+    </servlet-mapping>
+    
     <!-- 他のサーブレットも同様にここに追加可能 -->	
 
     <!-- 文字エンコーディング設定（必要なら） -->
