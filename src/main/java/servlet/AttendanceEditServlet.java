@@ -33,15 +33,21 @@ public class AttendanceEditServlet extends HttpServlet {
         Attendance attendance = dao.findById(id);
 
         if (attendance == null) {
-        	// データがなければ一覧へ
             response.sendRedirect("attendance-list");
             return;
         }
 
-        // JSPに渡す
+        // 日時のフォーマット
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        request.setAttribute("clockInStr", attendance.getClockIn() != null ? attendance.getClockIn().format(formatter) : "");
+        request.setAttribute("clockOutStr", attendance.getClockOut() != null ? attendance.getClockOut().format(formatter) : "");
+        request.setAttribute("breakStartStr", attendance.getBreakStart() != null ? attendance.getBreakStart().format(formatter) : "");
+        request.setAttribute("breakEndStr", attendance.getBreakEnd() != null ? attendance.getBreakEnd().format(formatter) : "");
+
         request.setAttribute("attendance", attendance);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/attendanceEdit.jsp");
         dispatcher.forward(request, response);
+
     }
 
     @Override
@@ -82,6 +88,6 @@ public class AttendanceEditServlet extends HttpServlet {
             request.setAttribute("attendance", attendance);
             RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/attendanceEdit.jsp");
             dispatcher.forward(request, response);
-        }        response.sendRedirect("attendance-list");
+        }
     }
 }

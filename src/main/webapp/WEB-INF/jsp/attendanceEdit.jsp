@@ -12,10 +12,10 @@
 		<form action="AttendanceEditServlet" method="post">
 		    <input type="hidden" name="id" value="${attendance.id}">
 		    <input type="hidden" name="employeeId" value="${attendance.employeeId}">
-		    出勤時刻: <input type="datetime-local" name="clockIn" value="${attendance.clockIn.format(DateTimeFormatter.ofPattern('yyyy-MM-dd\'T\'HH:mm'))}"><br>
-		    退勤時刻: <input type="datetime-local" name="clockOut" value="${attendance.clockOut.format(DateTimeFormatter.ofPattern('yyyy-MM-dd\'T\'HH:mm'))}"><br>
-		    休憩開始: <input type="datetime-local" name="breakStart" value="${attendance.breakStart.format(DateTimeFormatter.ofPattern('yyyy-MM-dd\'T\'HH:mm'))}"><br>
-		    休憩終了: <input type="datetime-local" name="breakEnd" value="${attendance.breakEnd.format(DateTimeFormatter.ofPattern('yyyy-MM-dd\'T\'HH:mm'))}"><br>
+		    出勤時刻: <input type="datetime-local" name="clockIn" value="${clockInStr}"><br>
+		    退勤時刻: <input type="datetime-local" name="clockOut" value="${clockOutStr}"><br>
+		    休憩開始: <input type="datetime-local" name="breakStart" value="${breakStartStr}"><br>
+		    休憩終了: <input type="datetime-local" name="breakEnd" value="${breakEndStr}"><br>
 		    残業時間: <input type="number" name="overtimeHours" value="${attendance.overtimeHours}"><br>
 		    <input type="submit" value="更新">
 		</form>

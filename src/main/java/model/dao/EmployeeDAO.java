@@ -28,7 +28,7 @@ public class EmployeeDAO {
                 employee.setPassword(rs.getString("password")); // セキュリティ上はあまり返さない方が良いです
             }
         } catch (Exception e) {
-            e.printStackTrace();
+        	 e.printStackTrace();
         }
 
         return employee;
