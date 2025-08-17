@@ -56,7 +56,24 @@ public class AttendanceEditServlet extends HttpServlet {
 
         request.setCharacterEncoding("UTF-8");
         
-        // パラメータを取得
+        AttendanceDAO dao = new AttendanceDAO();
+
+        // 削除ボタンが押された場合
+        if ("delete".equals(request.getParameter("action"))) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            boolean success = dao.delete(id);
+
+            if (success) {
+                response.sendRedirect("AttendanceListServlet");
+            } else {
+                request.setAttribute("error", "削除に失敗しました。");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/attendanceEdit.jsp");
+                dispatcher.forward(request, response);
+            }
+            return;
+        }
+
+        // 更新処理
         int id = Integer.parseInt(request.getParameter("id"));
         int employeeId = Integer.parseInt(request.getParameter("employeeId"));
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
@@ -67,7 +84,6 @@ public class AttendanceEditServlet extends HttpServlet {
         LocalDateTime breakEnd = LocalDateTime.parse(request.getParameter("breakEnd"), formatter);
         int overtimeHours = Integer.parseInt(request.getParameter("overtimeHours"));
 
-        // 更新用オブジェクトを作成
         Attendance attendance = new Attendance();
         attendance.setId(id);
         attendance.setEmployeeId(employeeId);
@@ -77,8 +93,6 @@ public class AttendanceEditServlet extends HttpServlet {
         attendance.setBreakEnd(breakEnd);
         attendance.setOvertimeHours(overtimeHours);
 
-        // DAOで更新処理
-        AttendanceDAO dao = new AttendanceDAO();
         boolean success = dao.update(attendance);
 
         if (success) {

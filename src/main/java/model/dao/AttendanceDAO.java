@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import model.entity.Attendance;
 
@@ -143,6 +145,15 @@ public class AttendanceDAO {
 
         return null;
     }
+    
+ // 勤怠DAOの例
+    public Map<Integer, Map<Integer, String>> getOvertimeSummaryByYear(int employeeId, int year) {
+        Map<Integer, Map<Integer, String>> result = new LinkedHashMap<>();
+        // 月ごと・週ごとに overtime_hours を SUM して格納
+        // 残業時間がない場合は "-" をセット
+        return result;
+    }
+
 
 }
 

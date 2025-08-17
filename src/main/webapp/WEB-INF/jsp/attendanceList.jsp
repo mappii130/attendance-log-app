@@ -34,5 +34,9 @@
 		<form action="AttendanceRegisterServlet" method="get">
 		    <input type="submit" value="勤怠登録画面へ">
 		</form>
+		<!-- 残業管理画面へ遷移するボタン -->
+		<form action="OvertimeManageServlet" method="get">
+		    <input type="submit" value="残業管理画面へ">
+		</form>
 	</body>
 </html>

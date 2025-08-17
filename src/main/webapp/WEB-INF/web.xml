@@ -45,6 +45,16 @@
 		<servlet-name>AttendanceEditServlet</servlet-name>
 		<url-pattern>/AttendanceEditServlet</url-pattern>
 	</servlet-mapping>
+	<!-- OvertimeManageServlet の設定 -->
+	<servlet>
+    <servlet-name>OvertimeManageServlet</servlet-name>
+    <servlet-class>servlet.OvertimeManageServlet</servlet-class>
+	</servlet>
+	
+	<servlet-mapping>
+	    <servlet-name>OvertimeManageServlet</servlet-name>
+	    <url-pattern>/OvertimeManageServlet</url-pattern>
+	</servlet-mapping>
 	<!-- 他のサーブレットも同様にここに追加可能 -->
 	<!-- 文字エンコーディング設定（必要なら） -->
 	<filter>
