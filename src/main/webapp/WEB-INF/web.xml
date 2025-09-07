@@ -45,6 +45,15 @@
 		<servlet-name>AttendanceEditServlet</servlet-name>
 		<url-pattern>/AttendanceEditServlet</url-pattern>
 	</servlet-mapping>
+	<!-- AttendanceDeleteServlet の設定 -->
+	<servlet>
+	    <servlet-name>AttendanceDeleteServlet</servlet-name>
+	    <servlet-class>servlet.AttendanceDeleteServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>AttendanceDeleteServlet</servlet-name>
+	    <url-pattern>/AttendanceDeleteServlet</url-pattern>
+	</servlet-mapping>
 	<!-- OvertimeManageServlet の設定 -->
 	<servlet>
     <servlet-name>OvertimeManageServlet</servlet-name>

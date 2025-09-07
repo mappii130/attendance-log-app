@@ -7,33 +7,61 @@
 		<title>残業管理画面</title>
 	</head>
 	<body>
-		<form method="get" action="overtime-manage">
-		    <select name="year" onchange="this.form.submit()">
-		        <c:forEach var="y" items="${years}">
-		            <option value="${y}" ${y == selectedYear ? 'selected' : ''}>${y}年</option>
-		        </c:forEach>
-		    </select>
-		</form>
-		
-		<table border="1">
-		    <tr>
-		        <th></th>
-		        <th>第1週</th>
-		        <th>第2週</th>
-		        <th>第3週</th>
-		        <th>第4週</th>
-		        <th>第5週</th>
-		        <th>月間</th>
-		    </tr>
-		    <c:forEach var="month" items="${overtimeData}">
-		        <tr>
-		            <td>${month.key}月</td>
-		            <c:forEach var="week" items="${month.value}">
-		                <td>${week}</td>
-		            </c:forEach>
-		        </tr>
-		    </c:forEach>
-		</table>
+    <!-- 年選択フォーム -->
+    <form action="overtime-manage" method="get">
+        年を選択:
+        <select name="year" onchange="this.form.submit()">
+            <c:forEach var="y" items="${yearList}">
+                <option value="${y}" <c:if test="${y == year}">selected</c:if>>${y}</option>
+            </c:forEach>
+        </select>
+    </form>
+
+    <br>
+
+    <!-- 残業時間テーブル -->
+    <table>
+        <thead>
+            <tr>
+                <th>月</th>
+                <th>第1週</th>
+                <th>第2週</th>
+                <th>第3週</th>
+                <th>第4週</th>
+                <th>第5週</th>
+                <th>合計</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach var="month" items="${monthList}">
+                <tr>
+                    <!-- 月 -->
+                    <td>${month}月</td>
+
+                    <!-- 各週の残業時間 -->
+                    <c:set var="monthTotal" value="0" scope="page" />
+                    <c:forEach var="w" begin="1" end="5">
+						<c:choose>
+						    <c:when test="${overtimeData[month][w] != null}">
+						        <td>${overtimeData[month][w]}</td>
+						    </c:when>
+						    <c:otherwise>
+						        <td>-</td>
+						    </c:otherwise>
+						</c:choose>
+                    </c:forEach>
+
+                    <!-- 月合計 -->
+                    <td>
+                        <c:choose>
+                            <c:when test="${monthTotal > 0}">${monthTotal}</c:when>
+                            <c:otherwise>-</c:otherwise>
+                        </c:choose>
+                    </td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
 		<a href="AttendanceListServlet">勤怠一覧に戻る</a>
-	</body>
+</body>
 </html>

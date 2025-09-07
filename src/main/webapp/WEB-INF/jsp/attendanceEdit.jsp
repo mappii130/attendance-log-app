@@ -18,7 +18,10 @@
 		    休憩終了: <input type="datetime-local" name="breakEnd" value="${breakEndStr}"><br>
 		    残業時間: <input type="number" name="overtimeHours" value="${attendance.overtimeHours}"><br>
 		    <input type="submit" value="更新">
-		        <button type="submit" name="action" value="delete" onclick="return confirm('本当に削除しますか？');">削除</button>
+		</form>
+		<form action="AttendanceDeleteServlet" method="post">
+		    <input type="hidden" name="id" value="${attendance.id}">
+		    <button type="submit">削除</button>
 		</form>
 
 		

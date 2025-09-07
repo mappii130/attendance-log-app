@@ -146,14 +146,58 @@ public class AttendanceDAO {
         return null;
     }
     
- // 勤怠DAOの例
+ // 残業集計（年・月ごと・週ごと）
     public Map<Integer, Map<Integer, String>> getOvertimeSummaryByYear(int employeeId, int year) {
         Map<Integer, Map<Integer, String>> result = new LinkedHashMap<>();
-        // 月ごと・週ごとに overtime_hours を SUM して格納
-        // 残業時間がない場合は "-" をセット
+
+        // 1〜12月を先に作っておく（残業なしでも "-" を出せるように）
+        for (int m = 1; m <= 12; m++) {
+            Map<Integer, String> weekMap = new LinkedHashMap<>();
+            // 最大 5 週分を用意
+            for (int w = 1; w <= 5; w++) {
+                weekMap.put(w, "-");
+            }
+            weekMap.put(99, "-"); // 月合計（キー99とする）
+            result.put(m, weekMap);
+        }
+
+        String sql =
+            "SELECT MONTH(clock_in) AS month, " +
+            "       WEEK(clock_in, 1) - WEEK(DATE_SUB(clock_in, INTERVAL DAYOFMONTH(clock_in)-1 DAY), 1) + 1 AS week, " +
+            "       SUM(overtime_hours) AS total " +
+            "FROM attendance " +
+            "WHERE employee_id = ? AND YEAR(clock_in) = ? " +
+            "GROUP BY month, week " +
+            "ORDER BY month, week";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, employeeId);
+            stmt.setInt(2, year);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int month = rs.getInt("month");
+                int week = rs.getInt("week");
+                int total = rs.getInt("total");
+
+                Map<Integer, String> weekMap = result.get(month);
+                if (weekMap != null) {
+                    weekMap.put(week, String.valueOf(total));
+                }
+
+                // 月合計の加算
+                String currentTotal = weekMap.get(99);
+                int sum = currentTotal.equals("-") ? 0 : Integer.parseInt(currentTotal);
+                weekMap.put(99, String.valueOf(sum + total));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         return result;
     }
-
-
 }
 
