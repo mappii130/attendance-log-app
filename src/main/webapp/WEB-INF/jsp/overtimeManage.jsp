@@ -52,12 +52,15 @@
                     </c:forEach>
 
                     <!-- 月合計 -->
-                    <td>
-                        <c:choose>
-                            <c:when test="${monthTotal > 0}">${monthTotal}</c:when>
-                            <c:otherwise>-</c:otherwise>
-                        </c:choose>
-                    </td>
+<td>
+    <c:choose>
+        <c:when test="${not empty overtimeData[month] && overtimeData[month][99] != 0}">
+            ${overtimeData[month][99]}
+        </c:when>
+        <c:otherwise>-</c:otherwise>
+    </c:choose>
+</td>
+
                 </tr>
             </c:forEach>
         </tbody>

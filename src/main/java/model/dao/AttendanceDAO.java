@@ -150,20 +150,19 @@ public class AttendanceDAO {
     public Map<Integer, Map<Integer, String>> getOvertimeSummaryByYear(int employeeId, int year) {
         Map<Integer, Map<Integer, String>> result = new LinkedHashMap<>();
 
-        // 1〜12月を先に作っておく（残業なしでも "-" を出せるように）
+        // 1〜12月を先に作っておく
         for (int m = 1; m <= 12; m++) {
             Map<Integer, String> weekMap = new LinkedHashMap<>();
-            // 最大 5 週分を用意
             for (int w = 1; w <= 5; w++) {
-                weekMap.put(w, "-");
+                weekMap.put(w, "0"); // 0で初期化
             }
-            weekMap.put(99, "-"); // 月合計（キー99とする）
+            weekMap.put(99, "0"); // 月合計
             result.put(m, weekMap);
         }
 
         String sql =
             "SELECT MONTH(clock_in) AS month, " +
-            "       WEEK(clock_in, 1) - WEEK(DATE_SUB(clock_in, INTERVAL DAYOFMONTH(clock_in)-1 DAY), 1) + 1 AS week, " +
+            "       WEEK(clock_in, 0) - WEEK(DATE_SUB(clock_in, INTERVAL DAYOFMONTH(clock_in)-1 DAY), 0) + 1 AS week, " +
             "       SUM(overtime_hours) AS total " +
             "FROM attendance " +
             "WHERE employee_id = ? AND YEAR(clock_in) = ? " +
@@ -186,12 +185,9 @@ public class AttendanceDAO {
                 Map<Integer, String> weekMap = result.get(month);
                 if (weekMap != null) {
                     weekMap.put(week, String.valueOf(total));
+                    int monthTotal = Integer.parseInt(weekMap.get(99)) + total;
+                    weekMap.put(99, String.valueOf(monthTotal));
                 }
-
-                // 月合計の加算
-                String currentTotal = weekMap.get(99);
-                int sum = currentTotal.equals("-") ? 0 : Integer.parseInt(currentTotal);
-                weekMap.put(99, String.valueOf(sum + total));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -199,5 +195,6 @@ public class AttendanceDAO {
 
         return result;
     }
+
 }
 
