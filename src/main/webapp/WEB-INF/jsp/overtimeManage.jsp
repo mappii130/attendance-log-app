@@ -8,7 +8,7 @@
 	</head>
 	<body>
     <!-- 年選択フォーム -->
-    <form action="overtime-manage" method="get">
+    <form action="OvertimeManageServlet" method="get">
         年を選択:
         <select name="year" onchange="this.form.submit()">
             <c:forEach var="y" items="${yearList}">
@@ -33,36 +33,37 @@
             </tr>
         </thead>
         <tbody>
-            <c:forEach var="month" items="${monthList}">
-                <tr>
-                    <!-- 月 -->
-                    <td>${month}月</td>
+			<c:forEach var="month" items="${monthList}">
+			    <tr>
+			        <td>${month}月</td>
+			
+			        <!-- 月ごとの週データを変数に格納 -->
+			        <c:set var="weekMap" value="${overtimeData[month]}" />
+			
+			        <c:set var="monthTotal" value="0" />
+			
+			        <!-- 各週の残業時間 -->
+<c:forEach var="w" begin="1" end="5">
+    <td>
+        <c:choose>
+            <c:when test="${weekMap[w] != null and weekMap[w] != '-'}">
+                <c:out value="${weekMap[w]}" />
+            </c:when>
+            <c:otherwise>-</c:otherwise>
+        </c:choose>
+    </td>
+</c:forEach>
 
-                    <!-- 各週の残業時間 -->
-                    <c:set var="monthTotal" value="0" scope="page" />
-                    <c:forEach var="w" begin="1" end="5">
-						<c:choose>
-						    <c:when test="${overtimeData[month][w] != null}">
-						        <td>${overtimeData[month][w]}</td>
-						    </c:when>
-						    <c:otherwise>
-						        <td>-</td>
-						    </c:otherwise>
-						</c:choose>
-                    </c:forEach>
 
-                    <!-- 月合計 -->
+
+			
+			        <!-- 月合計 -->
 <td>
-    <c:choose>
-        <c:when test="${not empty overtimeData[month] && overtimeData[month][99] != 0}">
-            ${overtimeData[month][99]}
-        </c:when>
-        <c:otherwise>-</c:otherwise>
-    </c:choose>
+<c:out value="${weekMap['99']}" />
 </td>
+    </tr>
+</c:forEach>
 
-                </tr>
-            </c:forEach>
         </tbody>
     </table>
 		<a href="AttendanceListServlet">勤怠一覧に戻る</a>

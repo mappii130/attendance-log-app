@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,11 +18,11 @@ import model.dao.AttendanceDAO;
 import model.entity.Employee;
 
 public class OvertimeManageServlet extends HttpServlet {
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // セッションからログイン中の社員を取得
         HttpSession session = request.getSession(false);
         Employee employee = (Employee) session.getAttribute("employee");
 
@@ -30,36 +31,88 @@ public class OvertimeManageServlet extends HttpServlet {
             return;
         }
 
-        // 現在の年
         int currentYear = LocalDate.now().getYear();
 
-        // プルダウンに表示する年リスト（例: 過去5年 + 今年 + 来年）
         List<Integer> yearList = new ArrayList<>();
         for (int i = currentYear - 5; i <= currentYear + 1; i++) {
             yearList.add(i);
         }
 
-        // リクエストされた年（未指定なら今年）
         String yearParam = request.getParameter("year");
         int year = (yearParam != null) ? Integer.parseInt(yearParam) : currentYear;
 
-        // DAOで残業時間データを取得（Map<月, Map<週, 時間>>）
         AttendanceDAO dao = new AttendanceDAO();
-        Map<Integer, Map<Integer, String>> overtimeData = dao.getOvertimeSummaryByYear(employee.getId(), year);
+        Map<Integer, Map<Integer, String>> rawData = dao.getOvertimeSummaryByYear(employee.getId(), year);
 
-        // 1～12月のリストを作成
+        // --- 表示用データに変換 ---
+        Map<Integer, Map<Integer, String>> overtimeData = new LinkedHashMap<>();
+
+        for (int month = 1; month <= 12; month++) {
+            Map<Integer, String> weekMap = rawData.get(month);
+            Map<Integer, String> displayMap = new LinkedHashMap<>();
+
+            int monthTotalMinutes = 0;
+
+            for (int w = 1; w <= 5; w++) {
+                String value = (weekMap != null) ? weekMap.get(w) : null;
+                int minutes = parseMinutes(value);
+                monthTotalMinutes += minutes;
+                displayMap.put(w, formatMinutes(value));
+            }
+
+            // 月合計（週99）を追加
+            if (monthTotalMinutes > 0) {
+                displayMap.put(99, formatMinutes(String.valueOf(monthTotalMinutes)));
+            } else {
+                displayMap.put(99, "-");
+            }
+
+            overtimeData.put(month, displayMap);
+
+            // ✅ デバッグ出力で確認
+            System.out.println("【DEBUG】" + month + "月の合計: " + monthTotalMinutes + "分 = " + formatMinutes(String.valueOf(monthTotalMinutes)));
+        }
+
+
+
         List<Integer> monthList = new ArrayList<>();
         for (int m = 1; m <= 12; m++) {
             monthList.add(m);
         }
 
-        // JSP に渡す
         request.setAttribute("year", year);
         request.setAttribute("yearList", yearList);
         request.setAttribute("monthList", monthList);
         request.setAttribute("overtimeData", overtimeData);
+        
+        for (Map.Entry<Integer, Map<Integer, String>> entry : overtimeData.entrySet()) {
+            System.out.println("【DEBUG】" + entry.getKey() + "月のデータ:");
+            for (Map.Entry<Integer, String> w : entry.getValue().entrySet()) {
+                System.out.println("　週 " + w.getKey() + " → " + w.getValue());
+            }
+        }
+
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/overtimeManage.jsp");
         dispatcher.forward(request, response);
+    }
+
+    /** null, "0", "-" → 0 に変換 */
+    private int parseMinutes(String minutesStr) {
+        if (minutesStr == null || minutesStr.equals("-") || minutesStr.equals("0")) return 0;
+        try {
+            return Integer.parseInt(minutesStr);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    /** 分→"H:mm"形式。0分またはnullなら"-"を返す */
+    private String formatMinutes(String minutesStr) {
+        int minutes = parseMinutes(minutesStr);
+        if (minutes == 0) return "-";
+        int h = minutes / 60;
+        int m = minutes % 60;
+        return String.format("%d:%02d", h, m);
     }
 }

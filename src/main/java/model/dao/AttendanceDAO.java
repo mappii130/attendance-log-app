@@ -150,11 +150,11 @@ public class AttendanceDAO {
     public Map<Integer, Map<Integer, String>> getOvertimeSummaryByYear(int employeeId, int year) {
         Map<Integer, Map<Integer, String>> result = new LinkedHashMap<>();
 
-        // 1〜12月を先に作っておく
+        // 1〜12月の枠を用意
         for (int m = 1; m <= 12; m++) {
             Map<Integer, String> weekMap = new LinkedHashMap<>();
             for (int w = 1; w <= 5; w++) {
-                weekMap.put(w, "0"); // 0で初期化
+                weekMap.put(w, "0");
             }
             weekMap.put(99, "0"); // 月合計
             result.put(m, weekMap);
@@ -185,7 +185,19 @@ public class AttendanceDAO {
                 Map<Integer, String> weekMap = result.get(month);
                 if (weekMap != null) {
                     weekMap.put(week, String.valueOf(total));
-                    int monthTotal = Integer.parseInt(weekMap.get(99)) + total;
+
+                    // --- ✅ 月合計を必ず0から加算 ---
+                    String currentTotalStr = weekMap.get(99);
+                    int currentTotal = 0;
+                    if (currentTotalStr != null && !currentTotalStr.equals("null")) {
+                        try {
+                            currentTotal = Integer.parseInt(currentTotalStr);
+                        } catch (NumberFormatException e) {
+                            currentTotal = 0;
+                        }
+                    }
+
+                    int monthTotal = currentTotal + total;
                     weekMap.put(99, String.valueOf(monthTotal));
                 }
             }
