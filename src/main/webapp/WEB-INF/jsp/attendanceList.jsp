@@ -9,6 +9,15 @@
 	<body>
 		<h2>勤怠一覧</h2>
 		
+		<!-- ✅ 検索フォーム -->
+<form method="get" action="AttendanceListServlet">
+    開始日: <input type="date" name="startDate" value="${param.startDate}">
+    終了日: <input type="date" name="endDate" value="${param.endDate}">
+    <input type="submit" value="検索">
+</form>
+
+<br>
+		
 		<table border="1">
 		    <tr>
 		        <th>日付</th>

@@ -30,7 +30,18 @@ public class AttendanceListServlet extends HttpServlet {
 
         // DAOで勤怠情報を取得
         AttendanceDAO dao = new AttendanceDAO();
-        List<Attendance> attendanceList = dao.findByEmployeeId(employee.getId());
+        String startDate = request.getParameter("startDate");
+        String endDate = request.getParameter("endDate");
+
+        List<Attendance> attendanceList;
+
+        if (startDate != null && endDate != null && !startDate.isEmpty() && !endDate.isEmpty()) {
+            // ✅ 範囲指定がある場合は検索
+            attendanceList = dao.findByDateRange(employee.getId(), startDate, endDate);
+        } else {
+            // ✅ ない場合は全件
+            attendanceList = dao.findByEmployeeId(employee.getId());
+        }
 
         // リクエストにセットしてJSPへ転送
         request.setAttribute("attendanceList", attendanceList);

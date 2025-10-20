@@ -207,6 +207,49 @@ public class AttendanceDAO {
 
         return result;
     }
+    
+ // 日付範囲で勤怠データを検索
+    public List<Attendance> findByDateRange(int employeeId, String startDate, String endDate) {
+        List<Attendance> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM attendance " +
+                     "WHERE employee_id = ? AND DATE(clock_in) BETWEEN ? AND ? " +
+                     "ORDER BY clock_in ASC";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, employeeId);
+            stmt.setString(2, startDate);
+            stmt.setString(3, endDate);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Attendance att = new Attendance();
+                att.setId(rs.getInt("id"));
+                att.setEmployeeId(rs.getInt("employee_id"));
+                att.setClockIn(rs.getTimestamp("clock_in").toLocalDateTime());
+
+                Timestamp out = rs.getTimestamp("clock_out");
+                if (out != null) att.setClockOut(out.toLocalDateTime());
+
+                Timestamp brStart = rs.getTimestamp("break_start");
+                if (brStart != null) att.setBreakStart(brStart.toLocalDateTime());
+
+                Timestamp brEnd = rs.getTimestamp("break_end");
+                if (brEnd != null) att.setBreakEnd(brEnd.toLocalDateTime());
+
+                att.setOvertimeHours(rs.getInt("overtime_hours"));
+                list.add(att);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
 
 }
 
