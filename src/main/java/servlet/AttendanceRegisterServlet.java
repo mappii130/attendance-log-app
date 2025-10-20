@@ -81,6 +81,20 @@ public class AttendanceRegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	
+        // 現在の日時を取得
+        LocalDateTime now = LocalDateTime.now();
+
+        // 表示用フォーマットを設定
+        java.time.format.DateTimeFormatter dateFormatter =
+                java.time.format.DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        java.time.format.DateTimeFormatter timeFormatter =
+                java.time.format.DateTimeFormatter.ofPattern("H:mm");
+
+        // フォーマットした日付と時刻を JSP に渡す
+        request.setAttribute("currentDate", now.format(dateFormatter));
+        request.setAttribute("currentTime", now.format(timeFormatter));
+    	
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/attendanceRegister.jsp");
         dispatcher.forward(request, response);
     }

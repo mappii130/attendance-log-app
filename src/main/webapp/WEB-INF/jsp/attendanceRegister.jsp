@@ -8,6 +8,11 @@
 <title>勤怠登録</title>
 </head>
 <body>
+
+    <!-- 現在日時の表示 -->
+    <p>日付：${currentDate}</p>
+    <p>時刻：${currentTime}</p>
+	
 	<form action="AttendanceRegisterServlet" method="post">
 	    <input type="submit" name="action" value="出勤">
 	    <input type="submit" name="action" value="退勤">
