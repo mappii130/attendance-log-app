@@ -91,12 +91,12 @@ public class Attendance {
         return "";
     }
 
-    // 表示用フォーマット：労働時間（hh時間mm分）
+    // 表示用フォーマット：労働時間（HH:mm）
     public String getTotalWorkTimeString() {
         long totalMinutes = getTotalWorkMinutes();
         long hours = totalMinutes / 60;
         long minutes = totalMinutes % 60;
-        return hours + "時間" + minutes + "分";
+        return String.format("%d:%02d", hours, minutes); // H:mm
     }
 
     // 休憩時間（分単位）
@@ -107,11 +107,11 @@ public class Attendance {
         return 0;
     }
 
-    // 表示用フォーマット：休憩時間（hh時間mm分）
+    // 表示用フォーマット：休憩時間（HH:mm）
     public String getBreakTimeString() {
-        long minutes = getBreakMinutes();
-        long hours = minutes / 60;
-        long remainingMinutes = minutes % 60;
-        return hours + "時間" + remainingMinutes + "分";
+        long totalMinutes = getBreakMinutes();
+        long hours = totalMinutes / 60;
+        long minutes = totalMinutes % 60;
+        return String.format("%d:%02d", hours, minutes); // H:mm
     }
 }
