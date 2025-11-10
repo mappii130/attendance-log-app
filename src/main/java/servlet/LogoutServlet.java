@@ -20,6 +20,6 @@ public class LogoutServlet extends HttpServlet {
         }
 
         // ログイン画面にリダイレクト
-        response.sendRedirect("/WEB-INF/jsp/login.jsp");
+        response.sendRedirect(request.getContextPath() + "/LoginServlet");
     }
 }

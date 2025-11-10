@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+* {
+ margin: 0;
+ padding: 0; 
+}
+ul {
+  list-style:none;
+}
+div {
+  padding: 0 30px;
+}
+.header__float {
+  overflow: hidden;
+  clear: both;
+  line-height: 48px;
+}
+.header__float h2 {
+  float: left;
+}
+.header__float nav {
+  float: right;
+}
+.header__float nav ul li{
+  float: left;
+  margin-left: 20px;
+}
+

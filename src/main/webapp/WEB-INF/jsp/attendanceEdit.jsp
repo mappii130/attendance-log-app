@@ -6,7 +6,8 @@
 		<meta charset="UTF-8">
 		<title>勤怠編集</title>
 	</head>
-	<body>
+	<body
+<p>${employee.name}</p>
 		<h2>勤怠編集</h2>
 		
 		<form action="AttendanceEditServlet" method="post">

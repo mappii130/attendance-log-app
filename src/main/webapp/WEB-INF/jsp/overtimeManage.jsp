@@ -7,7 +7,8 @@
     <title>残業管理画面</title>
 </head>
 <body>
-<h2>残業管理画面 (${year})</h2>
+<p>${employee.name}</p>
+<h2>残業管理画面</h2>
 
 <form action="OvertimeManageServlet" method="get">
     年を選択:

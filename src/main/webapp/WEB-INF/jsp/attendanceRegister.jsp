@@ -8,7 +8,7 @@
 <title>勤怠登録</title>
 </head>
 <body>
-
+<p>${employee.name}</p>
     <!-- 現在日時の表示 -->
     <p>日付：${currentDate}</p>
     <p>時刻：${currentTime}</p>

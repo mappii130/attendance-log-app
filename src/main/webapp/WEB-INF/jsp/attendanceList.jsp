@@ -5,8 +5,38 @@
 <head>
     <meta charset="UTF-8">
     <title>勤怠一覧</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/attendancelist.css">
 </head>
 <body>
+	<div  class="header__float">
+		<h2>${employee.name}</h2>
+		<nav>
+			<ul>
+				<li>
+				    <!-- 勤怠登録画面へ遷移するボタン -->
+				    <form action="AttendanceRegisterServlet" method="get">
+				        <input type="submit" value="勤怠登録">
+				    </form>
+			    </li>
+			    <li>
+				    <button type="button" onclick="location.href='AttendanceListServlet'">勤怠一覧</button>	
+				</li>
+			    <li>
+				    <!-- 残業管理画面へ遷移するボタン -->
+				    <form action="OvertimeManageServlet" method="get">
+				        <input type="submit" value="残業管理">
+				    </form>
+				</li>
+				<li>
+				    <!-- ログアウトしてログイン画面へ遷移するボタン -->
+					<form action="${pageContext.request.contextPath}/LogoutServlet" method="get" style="display:inline;">
+			        	<button type="submit">ログアウト</button>
+			    	</form>
+		    	</li>
+			</ul>
+		</nav>
+	</div>
+
     <h2>勤怠一覧</h2>
 
     <!-- ✅ 検索フォーム -->
@@ -49,14 +79,5 @@
 
     <br>
 
-    <!-- 勤怠登録画面へ遷移するボタン -->
-    <form action="AttendanceRegisterServlet" method="get">
-        <input type="submit" value="勤怠登録画面へ">
-    </form>
-
-    <!-- 残業管理画面へ遷移するボタン -->
-    <form action="OvertimeManageServlet" method="get">
-        <input type="submit" value="残業管理画面へ">
-    </form>
 </body>
 </html>
