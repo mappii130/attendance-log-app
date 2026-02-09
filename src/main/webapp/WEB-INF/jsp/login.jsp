@@ -8,24 +8,32 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/login.css">
 </head>
 <body>
-	<div class="title">
-    	<h2>勤怠管理</h2>
-
-	    <!-- エラーメッセージ表示 -->
-	    <c:if test="${not empty error}">
-	        <p style="color:red;">${error}</p>
-	    </c:if>
+	<div class="container">
+		<div class="title">
+	    	<h2>勤怠管理</h2>
+		</div>
 	
-	    <!-- ログインフォーム -->
-	    <form action="LoginServlet" method="post">
-	        <label for="email">メールアドレス：</label><br>
-	        <input type="email" id="email" name="email" required><br><br>
-	
-	        <label for="password">パスワード：</label><br>
-	        <input type="password" id="password" name="password" required><br><br>
-	
-	        <input type="submit" value="ログイン">
-	    </form>
-	</div>
+		<!-- エラーメッセージ表示 -->
+		<c:if test="${not empty error}">
+		    <p style="color:red;">${error}</p>
+		</c:if>
+		
+		<!-- ログインフォーム -->
+		<form action="LoginServlet" method="post">
+		    <!-- <label for="email">メールアドレス：</label> -->
+		    <div class="field">
+		    	<input type="email" id="email" name="email" placeholder="Email" required>
+		    </div>
+		
+		    <!-- <label for="password">パスワード：</label> -->
+		    <div class="field">
+		    	<input type="password" id="password" name="password" placeholder="Password" required>
+		    </div>
+		
+			<div class="field">
+		    	<input class="button" type="submit" value="LOGIN">
+			</div>
+		</form>
+    </div>
 </body>
 </html>

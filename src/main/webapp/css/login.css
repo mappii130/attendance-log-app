@@ -1,24 +1,93 @@
 @charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200;300;400;500;600;700;800;900&display=swap');
 
 * {
- margin: 0;
- padding: 0; 
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  font-family: "Noto Sans JP";
 }
 
-title {
-  font-family: arial;
-  font-size: 24px;
-  margin: 25px;
-  width: 350px;
-  height: 200px;
-  outline: dashed 1px black;
-  position: relative;
+html,
+body {
+  width: 100%;
+  height: 100%;
 }
 
-h2 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  margin: -25px 0 0 -25px;
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container{
+	width: 240px;
+}
+
+.title {
+  font-size: 28px;
   color: #059C9C;
+  margin-bottom: 48px;
+}
+
+ h2 {
+  text-align: center;
+	 
+ }
+ 
+ form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+ }
+
+ .field {
+  margin-bottom: 24px;
+}
+
+input {
+  text-align: center;	
+}
+
+input#email {
+	width: 240px;
+	height: 28px;
+	border-radius: 5px;
+	border: 1px solid #059C9C;
+	transition: 0.3s;
+	color: #059C9C;
+}
+
+input#password {
+	width: 240px;
+	height: 28px;
+	border-radius: 5px;
+	border: 1px solid #059C9C;
+	transition: 0.3s;
+	color: #059C9C;
+}
+
+input:focus {
+  background-color: rgba(0,173,172,0.2);
+  outline: 3px #059C9C solid;
+}
+
+::placeholder {
+  color: #059C9C;
+}
+
+input.button {
+	border: none;
+	cursor: pointer;
+	outline: none;
+	appearance: none;
+	color: white;
+	background-color: #059C9C;
+	border-radius: 10px;
+	width: 120px;
+	height: 50px;
+	line-height: 50px;
+	font-size: 20px;
 }
