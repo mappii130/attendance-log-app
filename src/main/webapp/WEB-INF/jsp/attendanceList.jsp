@@ -37,47 +37,47 @@
 		</nav>
 	</div>
 
-    <h2>勤怠一覧</h2>
-
-    <!-- ✅ 検索フォーム -->
-    <form method="get" action="AttendanceListServlet">
-        開始日: <input type="date" name="startDate" value="${param.startDate}">
-        終了日: <input type="date" name="endDate" value="${param.endDate}">
-        <input type="submit" value="検索">
-    </form>
-
-    <br>
-
-    <!-- ✅ 検索結果が0件の場合のメッセージ表示 -->
-    <c:if test="${empty attendanceList}">
-        <p style="color:red;">該当する勤怠記録はありません。</p>
-    </c:if>
-
-    <!-- ✅ 検索結果がある場合のみテーブルを表示 -->
-    <c:if test="${not empty attendanceList}">
-        <table border="1">
-            <tr>
-                <th>日付</th>
-                <th>出勤時刻</th>
-                <th>退勤時刻</th>
-                <th>休憩時間</th>
-                <th>労働時間</th>
-                <th></th>
-            </tr>
-            <c:forEach var="att" items="${attendanceList}">
-                <tr>
-                    <td>${att.dateString}</td>
-                    <td>${att.clockInTimeString}</td>
-                    <td>${att.clockOutTimeString}</td>
-                    <td>${att.breakTimeString}</td>
-                    <td>${att.totalWorkTimeString}</td>
-                    <td><a href="AttendanceEditServlet?id=${att.id}">編集</a></td>
-                </tr>
-            </c:forEach>
-        </table>
-    </c:if>
-
-    <br>
-
+	<div class="container">
+	    <h2>勤怠記録一覧</h2>
+	
+		<div class="formbox">
+		    <!-- ✅ 検索フォーム -->
+		    <form method="get" action="AttendanceListServlet">
+		        <input type="date" name="startDate" value="${param.startDate}">
+		        <span class="range">～</span>
+		        <input type="date" name="endDate" value="${param.endDate}">
+		        <input type="submit" class="search_button" value="検索">
+		    </form>
+		</div>
+	
+	    <!-- ✅ 検索結果が0件の場合のメッセージ表示 -->
+	    <c:if test="${empty attendanceList}">
+	        <p style="color:red;">該当する勤怠記録はありません。</p>
+	    </c:if>
+	
+	    <!-- ✅ 検索結果がある場合のみテーブルを表示 -->
+	    <c:if test="${not empty attendanceList}">
+	        <table class="t_design">
+	            <tr>
+	                <th>日付</th>
+	                <th>出勤時刻</th>
+	                <th>退勤時刻</th>
+	                <th>休憩時間</th>
+	                <th>労働時間</th>
+	                <th></th>
+	            </tr>
+	            <c:forEach var="att" items="${attendanceList}">
+	                <tr>
+	                    <td>${att.dateString}</td>
+	                    <td>${att.clockInTimeString}</td>
+	                    <td>${att.clockOutTimeString}</td>
+	                    <td>${att.breakTimeString}</td>
+	                    <td>${att.totalWorkTimeString}</td>
+	                    <td><a class="a_button" href="AttendanceEditServlet?id=${att.id}">編集</a></td>
+	                </tr>
+	            </c:forEach>
+	        </table>
+	    </c:if>
+	</div>
 </body>
 </html>
