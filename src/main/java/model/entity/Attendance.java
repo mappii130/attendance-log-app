@@ -67,14 +67,14 @@ public class Attendance {
         return overtimeHours; // 勤務時間がない場合でも overtimeHours が存在する可能性に対応
     }
 
-    // 表示用フォーマット：日付
+    // 表示用フォーマット：日付(yyyy/MM/dd)
     public String getDateString() {
         if (clockIn != null) {
-            return clockIn.toLocalDate().toString(); // yyyy-MM-dd
+            return clockIn.toLocalDate()
+                    .format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         }
         return "";
     }
-
     // 表示用フォーマット：出勤時刻（HH:mm）
     public String getClockInTimeString() {
         if (clockIn != null) {

@@ -23,24 +23,48 @@ h2 {
 ul {
   list-style:none;
 }
+
 div {
   padding: 0 30px;
 }
+
 .header__float {
-  overflow: hidden;
-  clear: both;
-  line-height: 48px;
+  display: flex;
+  justify-content: space-between; /* 左右に分ける */
+  align-items: center;            /* ← これで上下中央 */
+  height: 60px;
   margin-bottom: 72px;
 }
+
 .header__float h2 {
-  float: left;
+  margin: 0; 
 }
-.header__float nav {
-  float: right;
+
+.header__float nav ul{
+  display: flex;     /* liを横並び */
+  gap: 20px;         /* liの間隔 */
+  margin: 0;
+  padding: 0;
 }
-.header__float nav ul li{
-  float: left;
-  margin-left: 20px;
+
+.header__float input,
+.header__float button {
+	display: inline-block;
+	width: 120px;
+	padding: 4px 16px;
+	border: solid 2px #059C9C;
+	border-radius: 8px;
+	background-color: white;
+	font-size: 16px;
+	text-align: center;
+	margin: 0 auto;
+	transition: 0.3s;
+}
+
+.header__float input:hover,
+.header__float button:hover {
+	background: #059C9C;
+	color: white;
 }
 
 .container {
@@ -50,6 +74,7 @@ div {
 }
 
 .container h2 {
+	font-size: 32px;
 	margin-bottom: 36px;
 }
 
@@ -126,7 +151,7 @@ input[type="date"] {
 	display: inline-block;
 	padding: 4px 16px;
 	border: solid 2px #059C9C;
-	border-radius: 12px;
+	border-radius: 8px;
 	color: #059C9C;
 	text-align: center;
 	margin: 0 auto;
