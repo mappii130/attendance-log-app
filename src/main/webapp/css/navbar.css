@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+ul {
+  list-style:none;
+}
+
+.header__float {
+  display: flex;
+  justify-content: space-between; /* 左右に分ける */
+  align-items: center;            /* ← これで上下中央 */
+  height: 72px;
+  margin-bottom: 72px;
+  padding: 0 28px;
+}
+
+.header__float h2 {
+  margin: 0; 
+}
+
+.header__float nav ul{
+  display: flex;     /* liを横並び */
+  gap: 20px;         /* liの間隔 */
+  margin: 0;
+  padding: 0;
+}
+
+.header__float input,
+.header__float button {
+	display: inline-block;
+	width: 120px;
+	padding: 4px 16px;
+	border: solid 2px #059C9C;
+	border-radius: 8px;
+	background-color: white;
+	font-size: 16px;
+	text-align: center;
+	margin: 0 auto;
+	transition: 0.3s;
+}
+
+.header__float input:hover,
+.header__float button:hover {
+	background: #059C9C;
+	color: white;
+}

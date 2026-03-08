@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <title>勤怠一覧</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/css/attendancelist.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/navbar.css">
 </head>
 <body>
 	<div  class="header__float">
