@@ -1,0 +1,58 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200;300;400;500;600;700;800;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  font-family: "Noto Sans JP";
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+h2 {
+	color: #059C9C;
+}
+
+.container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.container h2 {
+	font-size: 32px;
+	margin-bottom: 36px;
+}
+
+.edit-table {
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+
+.edit-table th,
+.edit-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+.edit-table th {
+    background-color: #059C9C;
+    color: white;
+}
+
+.edit-table input {
+    width: 100%;
+}
+
+.button-area {
+    text-align: center;
+    margin-top: 20px;
+}
