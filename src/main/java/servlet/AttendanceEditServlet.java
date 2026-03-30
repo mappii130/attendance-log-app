@@ -38,11 +38,33 @@ public class AttendanceEditServlet extends HttpServlet {
         }
 
         // 日時のフォーマット
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        request.setAttribute("clockInStr", attendance.getClockIn() != null ? attendance.getClockIn().format(formatter) : "");
-        request.setAttribute("clockOutStr", attendance.getClockOut() != null ? attendance.getClockOut().format(formatter) : "");
-        request.setAttribute("breakStartStr", attendance.getBreakStart() != null ? attendance.getBreakStart().format(formatter) : "");
-        request.setAttribute("breakEndStr", attendance.getBreakEnd() != null ? attendance.getBreakEnd().format(formatter) : "");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        request.setAttribute("dateValue",
+            attendance.getClockIn() != null
+                ? attendance.getClockIn().toLocalDate().format(dateFormatter)
+                : "");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+
+        request.setAttribute("clockInTime",
+            attendance.getClockIn() != null
+                ? attendance.getClockIn().toLocalTime().format(timeFormatter)
+                : "");
+
+        request.setAttribute("clockOutTime",
+            attendance.getClockOut() != null
+                ? attendance.getClockOut().toLocalTime().format(timeFormatter)
+                : "");
+
+        request.setAttribute("breakStartTime",
+            attendance.getBreakStart() != null
+                ? attendance.getBreakStart().toLocalTime().format(timeFormatter)
+                : "");
+
+        request.setAttribute("breakEndTime",
+            attendance.getBreakEnd() != null
+                ? attendance.getBreakEnd().toLocalTime().format(timeFormatter)
+                : "");
 
         request.setAttribute("attendance", attendance);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/jsp/attendanceEdit.jsp");

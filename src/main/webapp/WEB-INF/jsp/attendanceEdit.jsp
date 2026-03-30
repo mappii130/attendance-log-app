@@ -46,18 +46,17 @@
 			    <input type="hidden" name="employeeId" value="${attendance.employeeId}">
 			    <table class="edit-table">
 			        <tr>
+			            <th>日付</th>
 			            <th>出勤時刻</th>
 			            <th>退勤時刻</th>
 			            <th>休憩開始</th>
 			            <th>休憩終了</th>
-			            <th>残業時間</th>
 			        </tr>
 			        <tr>
-			            <td><input type="datetime-local" name="clockIn" value="${clockInStr}"></td>
-			            <td><input type="datetime-local" name="clockOut" value="${clockOutStr}"></td>
-			            <td><input type="datetime-local" name="breakStart" value="${breakStartStr}"></td>
-			            <td><input type="datetime-local" name="breakEnd" value="${breakEndStr}"></td>
-			            <td><input type="number" name="overtimeHours" value="${attendance.overtimeHours}"></td>
+			            <td><input type="date" name="date" value="${dateValue}"></td>
+			            <td><input type="time" name="clockInTime" value="${clockInTime}"></td>
+						<td><input type="time" name="clockOutTime" value="${clockOutTime}"></td>
+						<td><input type="time" name="breakStartTime" value="${breakStartTime}"></td>
 			        </tr>
 			    </table>
 			        
