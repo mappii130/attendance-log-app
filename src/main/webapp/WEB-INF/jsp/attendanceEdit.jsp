@@ -57,12 +57,13 @@
 			            <td><input type="time" name="clockInTime" value="${clockInTime}"></td>
 						<td><input type="time" name="clockOutTime" value="${clockOutTime}"></td>
 						<td><input type="time" name="breakStartTime" value="${breakStartTime}"></td>
+						<td><input type="time" name="breakEndTime" value="${breakEndTime}"></td>
 			        </tr>
 			    </table>
 			        
 			    <div class="button-area">
-        			<input type="submit" value="更新">
-        			<button type="submit" form="deleteForm"
+        			<input type="submit"  class="update_btn" value="登録">
+        			<button type="submit" class="delete_btn" form="deleteForm"
         				onclick="return confirm('本当に削除しますか？')">
 					    削除
 					</button>
@@ -74,5 +75,13 @@
 <!-- 			    <button type="submit">削除</button> -->
 			</form>
 		</div>
+		
+		<script>
+			document.querySelectorAll('input[type="date"], input[type="time"]').forEach(el => {
+			    el.addEventListener('click', () => {
+			        if (el.showPicker) el.showPicker();
+			    });
+			});
+		</script>
 	</body>
 </html>

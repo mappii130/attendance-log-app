@@ -49,10 +49,63 @@ h2 {
 }
 
 .edit-table input {
-    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 4px;
+    position: relative;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+input[type="date"]:focus,
+input[type="time"]:focus {
+    border-bottom: 2px solid #059C9C;
+}
+
+input[type="date"]:hover,
+input[type="time"]:hover {
+    background-color: #f0f0f0;
 }
 
 .button-area {
     text-align: center;
     margin-top: 20px;
+}
+
+.update_btn,
+.delete_btn {
+	padding: 10px 20px;
+	border-radius: 8px;
+	font-size: 16px;
+	cursor: pointer;
+	transition: 0.3s;
+	margin: 0 10px;
+}
+
+.update_btn {
+	border: solid 2px #059C9C;
+	background: #059C9C;
+	color: white;
+}
+
+.delete_btn {
+	border: solid 2px red;
+	background: red;
+	color: white;
+}
+
+.update_btn:active,
+.delete_btn:active {
+  box-shadow: none;
+  position: relative;
+  top: 4px;
 }
