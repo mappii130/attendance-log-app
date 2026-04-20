@@ -1,7 +1,10 @@
 package servlet;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import javax.servlet.RequestDispatcher;
@@ -80,14 +83,56 @@ public class AttendanceEditServlet extends HttpServlet {
 
         int id = Integer.parseInt(request.getParameter("id"));
         int employeeId = Integer.parseInt(request.getParameter("employeeId"));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+     // 日付取得
+        String dateStr = request.getParameter("date");
+        LocalDate date = null;
+        if (dateStr != null && !dateStr.isEmpty()) {
+            date = LocalDate.parse(dateStr);
+        }
 
-        LocalDateTime clockIn = LocalDateTime.parse(request.getParameter("clockIn"), formatter);
-        LocalDateTime clockOut = LocalDateTime.parse(request.getParameter("clockOut"), formatter);
-        LocalDateTime breakStart = LocalDateTime.parse(request.getParameter("breakStart"), formatter);
-        LocalDateTime breakEnd = LocalDateTime.parse(request.getParameter("breakEnd"), formatter);
-        int overtimeHours = Integer.parseInt(request.getParameter("overtimeHours"));
+        // 時間取得
+        String clockInStr = request.getParameter("clockInTime");
+        String clockOutStr = request.getParameter("clockOutTime");
+        String breakStartStr = request.getParameter("breakStartTime");
+        String breakEndStr = request.getParameter("breakEndTime");
 
+        // null対策しながら変換
+        LocalTime clockInTime = (clockInStr != null && !clockInStr.isEmpty()) ? LocalTime.parse(clockInStr) : null;
+        LocalTime clockOutTime = (clockOutStr != null && !clockOutStr.isEmpty()) ? LocalTime.parse(clockOutStr) : null;
+        LocalTime breakStartTime = (breakStartStr != null && !breakStartStr.isEmpty()) ? LocalTime.parse(breakStartStr) : null;
+        LocalTime breakEndTime = (breakEndStr != null && !breakEndStr.isEmpty()) ? LocalTime.parse(breakEndStr) : null;
+
+        // LocalDateTimeに合成
+        LocalDateTime clockIn = (clockInTime != null) ? LocalDateTime.of(date, clockInTime) : null;
+        LocalDateTime clockOut = (clockOutTime != null) ? LocalDateTime.of(date, clockOutTime) : null;
+        LocalDateTime breakStart = (breakStartTime != null) ? LocalDateTime.of(date, breakStartTime) : null;
+        LocalDateTime breakEnd = (breakEndTime != null) ? LocalDateTime.of(date, breakEndTime) : null;
+
+        long workMinutes = 0;
+
+	     // 勤務時間
+	     if (clockIn != null && clockOut != null) {
+	         workMinutes = Duration.between(clockIn, clockOut).toMinutes();
+	     }
+	
+	     // 休憩時間
+	     long breakMinutes = 0;
+	     if (breakStart != null && breakEnd != null) {
+	         breakMinutes = Duration.between(breakStart, breakEnd).toMinutes();
+	     }
+	
+	     // 実働時間
+	     long actualWorkMinutes = workMinutes - breakMinutes;
+	
+	     // 残業（8時間 = 480分）
+	     long overtimeMinutes = 0;
+	     if (actualWorkMinutes > 480) {
+	         overtimeMinutes = actualWorkMinutes - 480;
+	     }
+	
+	     // intに変換
+	     int overtimeHours = (int) overtimeMinutes;
+        
         Attendance attendance = new Attendance();
         attendance.setId(id);
         attendance.setEmployeeId(employeeId);
@@ -95,6 +140,7 @@ public class AttendanceEditServlet extends HttpServlet {
         attendance.setClockOut(clockOut);
         attendance.setBreakStart(breakStart);
         attendance.setBreakEnd(breakEnd);
+        
         attendance.setOvertimeHours(overtimeHours);
 
         AttendanceDAO dao = new AttendanceDAO();

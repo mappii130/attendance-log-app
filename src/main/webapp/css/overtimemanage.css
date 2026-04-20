@@ -1,0 +1,64 @@
+@charset "UTF-8";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200;300;400;500;600;700;800;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  list-style: none;
+  text-decoration: none;
+  font-family: "Noto Sans JP";
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+h2 {
+	color: #059C9C;
+}
+
+.container {
+  display: flex;
+  flex-flow: column;
+  align-items: center; 
+}
+
+.container h2 {
+	font-size: 32px;
+	margin-bottom: 36px;
+}
+
+.container form {
+  width: 800px;
+  margin: 0 auto 10px;
+  text-align: left;
+  letter-spacing: 3px;
+}
+
+.y_select {
+	width: 120px;
+	padding: 10px;
+	font-size: 16px;
+	border: solid 2px #059C9C;
+	border-radius: 10px;
+	color: #059C9C;
+}
+
+table {
+  width: 800px;
+  letter-spacing: 3px;
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin-bottom: 50px;
+}
+
+table th,
+table td {
+  width: 100px;
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ccc;
+}

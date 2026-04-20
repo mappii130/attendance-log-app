@@ -61,10 +61,9 @@ public class Attendance {
                 breakDuration = Duration.between(breakStart, breakEnd);
             }
 
-            long baseMinutes = workDuration.minus(breakDuration).toMinutes();
-            return baseMinutes + overtimeHours; // ← ここで加算
+            return workDuration.minus(breakDuration).toMinutes(); // ← 修正
         }
-        return overtimeHours; // 勤務時間がない場合でも overtimeHours が存在する可能性に対応
+        return 0;
     }
 
     // 表示用フォーマット：日付(yyyy/MM/dd)
