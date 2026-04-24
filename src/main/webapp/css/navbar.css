@@ -5,6 +5,9 @@ ul {
 }
 
 .header__float {
+  position: sticky;
+  top: 0;
+  background-color: white;
   display: flex;
   justify-content: space-between; /* 左右に分ける */
   align-items: center;            /* ← これで上下中央 */
