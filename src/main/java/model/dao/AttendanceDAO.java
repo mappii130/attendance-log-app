@@ -111,6 +111,48 @@ public class AttendanceDAO {
         return list;
     }
     
+ // 社員IDごとの当月勤怠データを取得
+    public List<Attendance> findCurrentMonthByEmployeeId(int employeeId) {
+        List<Attendance> list = new ArrayList<>();
+
+        String sql = "SELECT * FROM attendance "
+                   + "WHERE employee_id = ? "
+                   + "AND YEAR(clock_in) = YEAR(CURDATE()) "
+                   + "AND MONTH(clock_in) = MONTH(CURDATE()) "
+                   + "ORDER BY clock_in ASC";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, employeeId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Attendance att = new Attendance();
+                att.setId(rs.getInt("id"));
+                att.setEmployeeId(rs.getInt("employee_id"));
+                att.setClockIn(rs.getTimestamp("clock_in").toLocalDateTime());
+
+                Timestamp out = rs.getTimestamp("clock_out");
+                if (out != null) att.setClockOut(out.toLocalDateTime());
+
+                Timestamp brStart = rs.getTimestamp("break_start");
+                if (brStart != null) att.setBreakStart(brStart.toLocalDateTime());
+
+                Timestamp brEnd = rs.getTimestamp("break_end");
+                if (brEnd != null) att.setBreakEnd(brEnd.toLocalDateTime());
+
+                att.setOvertimeHours(rs.getInt("overtime_hours"));
+                list.add(att);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+    
  // 勤怠IDで1件の勤怠データを取得
     public Attendance findById(int id) {
         String sql = "SELECT * FROM attendance WHERE id = ?";

@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -38,9 +39,19 @@ public class AttendanceListServlet extends HttpServlet {
         if (startDate != null && endDate != null && !startDate.isEmpty() && !endDate.isEmpty()) {
             // ✅ 範囲指定がある場合は検索
             attendanceList = dao.findByDateRange(employee.getId(), startDate, endDate);
+            
+            request.setAttribute("startDate", startDate);
+            request.setAttribute("endDate", endDate);
         } else {
-            // ✅ ない場合は全件
-            attendanceList = dao.findByEmployeeId(employee.getId());
+            // ✅ ない場合は表示している月分
+        	LocalDate today = LocalDate.now();
+        	String firstDay = today.withDayOfMonth(1).toString();
+        	String lastDay = today.withDayOfMonth(today.lengthOfMonth()).toString();
+        	
+        	attendanceList = dao.findCurrentMonthByEmployeeId(employee.getId());
+
+        	request.setAttribute("startDate", firstDay);
+        	request.setAttribute("endDate", lastDay);
         }
 
         // リクエストにセットしてJSPへ転送

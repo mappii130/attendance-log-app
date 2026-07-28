@@ -44,9 +44,9 @@
 		<div class="formbox">
 		    <!-- ✅ 検索フォーム -->
 		    <form method="get" action="AttendanceListServlet">
-		        <input type="date" name="startDate" value="${param.startDate}">
+		        <input type="date" name="startDate" value="${startDate}">
 		        <span class="range">～</span>
-		        <input type="date" name="endDate" value="${param.endDate}">
+		        <input type="date" name="endDate" value="${endDate}">
 		        <input type="submit" class="search_button" value="検索">
 		    </form>
 		</div>
